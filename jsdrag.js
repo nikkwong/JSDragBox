@@ -108,7 +108,7 @@
 
 	}
 
-	DragBox.prototype.init = function (el, onmousemoveCb, onmouseUpCb, onmousedownCb, context) {
+	DragBox.prototype.init = function (el, onmousemoveCb, onmouseUpCb, onmousedownCb, context, tolerance) {
 
 		el.appendChild(this.domRef);
 		// this.tolerance = tolerance ? tolerance : this.tolerance;
@@ -161,7 +161,7 @@
 			this.top = this.initPosY;
 		}
 		if (onmousemoveCb)
-			onmousemoveCb.call(context, event, this);			
+			onmousemoveCb.call(event, context, this);			
 	};
 
 	DragBox.prototype.showDragBox = function (event, onmousedownCb, context) {
@@ -169,7 +169,7 @@
 		this.initPosY = event.clientY + window.scrollY;
 		this.isVisible = true;
 		if (onmousedownCb)
-			onmousedownCb.call(context, event, this);
+			onmousedownCb.call(event, context, this);
 	}
 
 	DragBox.prototype.resetDragBox = function (event, onmouseupCb, context) {
@@ -183,5 +183,8 @@
 		this.left = 0;
 		this.top = 0;
 		if (onmouseupCb)
-			onmouseupCb.call(context, event, this);
+			onmouseupCb.call(event, context, this);
 	}
+
+	//
+	//
