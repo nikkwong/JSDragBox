@@ -9,7 +9,7 @@ Just paste the code from jsdrag.js into your console and trigger a ```onmousedow
 You probably want to call init on the  ```body```—it will append a ```figure``` as the body's last element. 
 
 ```
-var dragBox = new DragBox().init(document.body[, callback[, context]]);
+var dragBox = new DragBox().init(document.body[, onmousemoveCallback[, onmouseupCallback [, onmousedownCallback [, context]]]]);
 ```
 
 ## Callback
