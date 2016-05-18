@@ -108,7 +108,7 @@
 
 		}
 
-		DragBox.prototype.init = function (el, tolerance, domTraversalCb) {
+		DragBox.prototype.init = function (el, domTraversalCb) {
 
 			el.appendChild(this.domRef);
 			this.tolerance = tolerance ? tolerance : this.tolerance;
