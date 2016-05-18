@@ -19,19 +19,19 @@ You can pass a callback that gets executed on 3 mouse events. They have the foll
 ###onmousemove
 
 ```
-function (event: Event, context: DragBox, calleeContext: this) { ... }
+function (event: Event, context: DragBox) { ... }
 ```
 
 ###onmousedown
 
 ```
-function (event: Event, context: DragBox, calleeContext: this) { ... }
+function (event: Event, context: DragBox) { ... }
 ```
 
 ###onmouseup
 
 ```
-function (event: Event, context: DragBox, calleeContext: this) { ... }
+function (event: Event, context: DragBox) { ... }
 ```
 
 
