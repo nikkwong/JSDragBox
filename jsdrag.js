@@ -13,7 +13,7 @@
 			this.tolerance = 100;
 
 			this.domRef = document.createElement('figure');
-			this.domRef.style.position = 'fixed';
+			this.domRef.style.position = 'absolute';
 			this.domRef.style.margin = 0;
 			this.domRef.style.display = 'none';
 			this.domRef.style.backgroundColor = 'rgba(255,255,255,.2)';
@@ -115,14 +115,14 @@
 
 			document.onmousedown = function (e) {
 				e.preventDefault();
-				this.showDragBox(e.clientX, e.clientY, this);
+				this.showDragBox(window.scrollX + e.clientX, window.scrollY + e.clientY, this);
 			}.bind(this);
 
 			document.onmousemove = function (e) {
 				e.preventDefault();
 				if (!this.isVisible)
 					return;
-				this.resizeDragBox(e.clientX, e.clientY, event, domTraversalCb);
+				this.resizeDragBox(window.scrollX + e.clientX, window.scrollY + e.clientY, event, domTraversalCb);
 			}.bind(this);
 
 			document.onmouseup = function (e) {
