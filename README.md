@@ -12,12 +12,27 @@ You probably want to call init on the  ```body```—it will append a ```figure``
 var dragBox = new DragBox().init(document.body[, onmousemoveCallback[, onmouseupCallback [, onmousedownCallback [, context]]]]);
 ```
 
-## Callback
+## Callbacks
 
-You can pass a callback that gets executed on the ```onmousemove``` event. It has the following signature:
+You can pass a callback that gets executed on 3 mouse events. They have the following signatures:
+
+###onmousemove
 
 ```
-function (event: Event, this: DragBox) { ... }
+function (event: Event, context: DragBox, calleeContext: this) { ... }
 ```
 
-This callback is optional.
+###onmousedown
+
+```
+function (event: Event, context: DragBox, calleeContext: this) { ... }
+```
+
+###onmouseup
+
+```
+function (event: Event, context: DragBox, calleeContext: this) { ... }
+```
+
+
+This callbacks are optional.
