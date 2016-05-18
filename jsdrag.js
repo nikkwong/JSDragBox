@@ -122,7 +122,7 @@
 				e.preventDefault();
 				if (!this.isVisible)
 					return;
-				this.resizeDragBox(e.clientX, e.clientY, domTraversalCb);
+				this.resizeDragBox(e.clientX, e.clientY, event, domTraversalCb);
 			}.bind(this);
 
 			document.onmouseup = function (e) {
@@ -132,7 +132,7 @@
 
 		};
 
-		DragBox.prototype.resizeDragBox = function (currentPosX, currentPosY, domTraversalCb) {
+		DragBox.prototype.resizeDragBox = function (currentPosX, currentPosY, event, domTraversalCb) {
 			this.currentPosX = currentPosX;
 			this.currentPosY = currentPosY;
 
@@ -153,7 +153,7 @@
 				this.top = this.initPosY;
 			}
 			if (domTraversalCb)
-				domTraversalCb(currentPosX, currentPosY, this);			
+				domTraversalCb(currentPosX, currentPosY, event, this);			
 		};
 
 		DragBox.prototype.showDragBox = function (initPosX, initPosY) {
