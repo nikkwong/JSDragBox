@@ -108,9 +108,10 @@
 
 		}
 
-		DragBox.prototype.init = function (el, domTraversalCb) {
+		DragBox.prototype.init = function (el, domTraversalCb, tolerance) {
 
 			el.appendChild(this.domRef);
+			debugger;
 			this.tolerance = tolerance ? tolerance : this.tolerance;
 
 			document.onmousedown = function (e) {
