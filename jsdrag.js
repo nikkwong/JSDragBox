@@ -108,35 +108,35 @@
 
 	}
 
-	DragBox.prototype.init = function (el, domTraversalCb, context, tolerance) {
+	DragBox.prototype.init = function (el, onmousemoveCb, onmouseUpCb, onmousedownCb, context) {
 
 		el.appendChild(this.domRef);
-		this.tolerance = tolerance ? tolerance : this.tolerance;
+		// this.tolerance = tolerance ? tolerance : this.tolerance;
 
 		document.onmousedown = function (e) {
 			e.preventDefault();
-			this.showDragBox(window.scrollX + e.clientX, window.scrollY + e.clientY, this);
+			this.showDragBox(e, onmousedownCb, context);
 		}.bind(this);
 
 		document.onmousemove = function (e) {
 			e.preventDefault();
 			if (!this.isVisible)
 				return;
-			this.resizeDragBox(window.scrollX + e.clientX, window.scrollY + e.clientY, event, domTraversalCb, context);
+			this.resizeDragBox(e, onmousemoveCb, context);
 		}.bind(this);
 
 		document.onmouseup = function (e) {
 			e.preventDefault();
-			this.resetDragBox(this);
+			this.resetDragBox(e, onmouseupCb, context);
 		}.bind(this);
 
 	};
 
-	DragBox.prototype.resizeDragBox = function (currentPosX, currentPosY, event, domTraversalCb, context) {
+	DragBox.prototype.resizeDragBox = function (event, onmousemoveCb, context) {
 		// NOTE currentPosX and currentPosY are relative to the document.
-		this.currentPosX = currentPosX;
-		this.currentPosY = currentPosY;
-		
+		this.currentPosX = event.clientX + window.scrollX;
+		this.currentPosY = event.clientY + window.scrollY;
+
 		// Check for out of bounds.
 		if (this.currentPosX > (window.scrollX + window.document.documentElement.clientWidth) || 
 			this.currentPosX < window.scrollX || 
@@ -160,17 +160,19 @@
 			this.height = this.currentPosY - this.initPosY;
 			this.top = this.initPosY;
 		}
-		if (domTraversalCb)
-			domTraversalCb.call(context, event, this);			
+		if (onmousemoveCb)
+			onmousemoveCb.call(context, event, this);			
 	};
 
-	DragBox.prototype.showDragBox = function (initPosX, initPosY) {
-		this.initPosX = initPosX;
-		this.initPosY = initPosY;
+	DragBox.prototype.showDragBox = function (event, onmousedownCb, context) {
+		this.initPosX = event.clientX + window.scrollX;
+		this.initPosY = event.clientY + window.scrollY;
 		this.isVisible = true;
+		if (onmousedownCb)
+			onmousedownCb.call(context, event, this);
 	}
 
-	DragBox.prototype.resetDragBox = function () {
+	DragBox.prototype.resetDragBox = function (event, onmouseupCb, context) {
 		this.isVisible = false;
 		this.initPosX = 0;
 		this.initPosY = 0;
@@ -180,4 +182,6 @@
 		this.height = 0;
 		this.left = 0;
 		this.top = 0;
+		if (onmouseupCb)
+			onmouseupCb.call(context, event, this);
 	}
