@@ -2,7 +2,7 @@
 A javascript drag box—like the mouse drag box on your operating system, but for your browser
 
 ## Demo
-Just paste the code from jsdrag.js into your console and trigger a ```onmousedown``` & ```onmousemove``` event somewhere in the client window (without triggering ```onmouseup```.
+Just paste the code from jsdrag.js into your console and trigger a ```onmousedown``` & ```onmousemove``` event somewhere in the client window (without triggering ```onmouseup```). I.e., drag.
  
 ## Make it work yo
 
