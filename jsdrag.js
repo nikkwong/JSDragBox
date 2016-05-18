@@ -136,6 +136,13 @@
 		// NOTE currentPosX and currentPosY are relative to the document.
 		this.currentPosX = currentPosX;
 		this.currentPosY = currentPosY;
+		
+		// Check for out of bounds.
+		if (this.currentPosX > (window.scrollX + window.document.documentElement.clientWidth) || 
+			this.currentPosX < window.scrollX || 
+			this.currentPosY > (window.scrollY + window.document.documentElement.clientHeight) ||
+			this.currentPosY < window.scrollY)
+			return;
 
 		if (this.currentPosX < this.initPosX) {
 			this.width = this.initPosX - this.currentPosX;
