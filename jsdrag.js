@@ -1,6 +1,4 @@
 
-		var dragBox = new DragBox().init(document.body);
-
 		function DragBox() {
 			var _isVisible = false,
 				_initPosX = 0,
@@ -11,6 +9,9 @@
 				_top = 0,
 				_currentPosX = 0,
 				_currentPosY = 0;
+
+			this.tolerance = 100;
+
 			this.domRef = document.createElement('figure');
 			this.domRef.style.position = 'fixed';
 			this.domRef.style.margin = 0;
@@ -105,70 +106,70 @@
 			    }
 			});
 
+		}
 
-			this.init = function (el) {
+		DragBox.prototype.init = function (el, tolerance, domTraversalCb) {
 
-				el.appendChild(this.domRef);
+			el.appendChild(this.domRef);
+			this.tolerance = tolerance ? tolerance : this.tolerance;
 
-				document.onmousedown = function (e) {
-					e.preventDefault();
-					this.showDragBox(e.clientX, e.clientY, this);
-				}.bind(this);
+			document.onmousedown = function (e) {
+				e.preventDefault();
+				this.showDragBox(e.clientX, e.clientY, this);
+			}.bind(this);
 
-				document.onmousemove = function (e) {
-					e.preventDefault();
-					if (!this.isVisible)
-						return;
-					this.resizeDragBox(e.clientX, e.clientY, this);
-				}.bind(this);
+			document.onmousemove = function (e) {
+				e.preventDefault();
+				if (!this.isVisible)
+					return;
+				this.resizeDragBox(e.clientX, e.clientY, domTraversalCb);
+			}.bind(this);
 
-				document.onmouseup = function (e) {
-					e.preventDefault();
-					this.resetDragBox(this);
-				}.bind(this);
+			document.onmouseup = function (e) {
+				e.preventDefault();
+				this.resetDragBox(this);
+			}.bind(this);
 
-			};
+		};
 
-			// Pass drag box so we can have a 'pure functional programming' approach.
+		DragBox.prototype.resizeDragBox = function (currentPosX, currentPosY, domTraversalCb) {
+			this.currentPosX = currentPosX;
+			this.currentPosY = currentPosY;
 
-			this.resetDragBox = function (dragBox) {
-				dragBox.isVisible = false;
-				dragBox.initPosX = 0;
-				dragBox.initPosY = 0;
-				dragBox.currentPosX = 0;
-				dragBox.currentPosY = 0;
-				dragBox.width = 0;
-				dragBox.height = 0;
-				dragBox.left = 0;
-				dragBox.top = 0;
+			if (this.currentPosX < this.initPosX) {
+				this.width = this.initPosX - this.currentPosX;
+				this.left = this.currentPosX;
+			} else {
+				this.width = this.currentPosX - this.initPosX;
+				this.left = this.initPosX;
 			}
 
-			this.showDragBox = function (initPosX, initPosY, dragBox) {
-				dragBox.initPosX = initPosX;
-				dragBox.initPosY = initPosY;
-				dragBox.isVisible = true;
+
+			if (this.currentPosY < this.initPosY) {
+				this.height = this.initPosY - this.currentPosY;
+				this.top = this.currentPosY;
+			} else {
+				this.height = this.currentPosY - this.initPosY;
+				this.top = this.initPosY;
 			}
+			if (domTraversalCb)
+				domTraversalCb(currentPosX, currentPosY, this);			
+		};
 
-			this.resizeDragBox = function (currentPosX, currentPosY, dragBox) {
-				dragBox.currentPosX = currentPosX;
-				dragBox.currentPosY = currentPosY;
+		DragBox.prototype.showDragBox = function (initPosX, initPosY) {
+			this.initPosX = initPosX;
+			this.initPosY = initPosY;
+			this.isVisible = true;
+		}
 
-				if (dragBox.currentPosX < dragBox.initPosX) {
-					dragBox.width = dragBox.initPosX - dragBox.currentPosX;
-					dragBox.left = dragBox.currentPosX;
-				} else {
-					dragBox.width = dragBox.currentPosX - dragBox.initPosX;
-					dragBox.left = dragBox.initPosX;
-				}
-
-
-				if (dragBox.currentPosY < dragBox.initPosY) {
-					dragBox.height = dragBox.initPosY - dragBox.currentPosY;
-					dragBox.top = dragBox.currentPosY;
-				} else {
-					dragBox.height = dragBox.currentPosY - dragBox.initPosY;
-					dragBox.top = dragBox.initPosY;
-				}
-			}
-
+		DragBox.prototype.resetDragBox = function () {
+			this.isVisible = false;
+			this.initPosX = 0;
+			this.initPosY = 0;
+			this.currentPosX = 0;
+			this.currentPosY = 0;
+			this.width = 0;
+			this.height = 0;
+			this.left = 0;
+			this.top = 0;
 		}
