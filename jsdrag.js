@@ -1,69 +1,5 @@
 
-		var dragBox = new DragBox();
-		body = document.body;
-
-		var init = function () {
-
-			body.appendChild(dragBox.domRef);
-
-			document.onmousedown = function (e) {
-				e.preventDefault();
-				showDragBox(e.clientX, e.clientY, dragBox);
-			}
-
-			document.onmousemove = function (e) {
-				e.preventDefault();
-				if (!dragBox.isVisible)
-					return;
-				resizeDragBox(e.clientX, e.clientY, dragBox);
-			}
-
-			document.onmouseup = function (e) {
-				e.preventDefault();
-				resetDragBox(dragBox);
-			}
-
-		};
-
-		function showDragBox(initPosX, initPosY, dragBox) {
-			dragBox.initPosX = initPosX;
-			dragBox.initPosY = initPosY;
-			dragBox.isVisible = true;
-		}
-
-		function resizeDragBox(currentPosX, currentPosY, dragBox) {
-			dragBox.currentPosX = currentPosX;
-			dragBox.currentPosY = currentPosY;
-
-			if (dragBox.currentPosX < dragBox.initPosX) {
-				dragBox.width = dragBox.initPosX - dragBox.currentPosX;
-				dragBox.left = dragBox.currentPosX;
-			} else {
-				dragBox.width = dragBox.currentPosX - dragBox.initPosX;
-				dragBox.left = dragBox.initPosX;
-			}
-
-
-			if (dragBox.currentPosY < dragBox.initPosY) {
-				dragBox.height = dragBox.initPosY - dragBox.currentPosY;
-				dragBox.top = dragBox.currentPosY;
-			} else {
-				dragBox.height = dragBox.currentPosY - dragBox.initPosY;
-				dragBox.top = dragBox.initPosY;
-			}
-		}
-
-		function resetDragBox(dragBox) {
-			dragBox.isVisible = false;
-			dragBox.initPosX = 0;
-			dragBox.initPosY = 0;
-			dragBox.currentPosX = 0;
-			dragBox.currentPosY = 0;
-			dragBox.width = 0;
-			dragBox.height = 0;
-			dragBox.left = 0;
-			dragBox.top = 0;
-		}
+		var dragBox = new DragBox().init(document.body);
 
 		function DragBox() {
 			var _isVisible = false,
@@ -75,14 +11,12 @@
 				_top = 0,
 				_currentPosX = 0,
 				_currentPosY = 0;
-
 			this.domRef = document.createElement('figure');
 			this.domRef.style.position = 'fixed';
 			this.domRef.style.margin = 0;
 			this.domRef.style.display = 'none';
 			this.domRef.style.backgroundColor = 'rgba(255,255,255,.2)';
 			this.domRef.style.border = '2px solid #dbe1e5';
-			// this.domRef.style.borderTop = 
 			this.domRef.style.zIndex = 2147483637;
 
 			Object.defineProperty(this, "isVisible", {
@@ -170,6 +104,71 @@
 			    	_currentPosY = currentPosY;
 			    }
 			});
-		}
 
-		init();
+
+			this.init = function (el) {
+
+				el.appendChild(this.domRef);
+
+				document.onmousedown = function (e) {
+					e.preventDefault();
+					this.showDragBox(e.clientX, e.clientY, this);
+				}.bind(this);
+
+				document.onmousemove = function (e) {
+					e.preventDefault();
+					if (!this.isVisible)
+						return;
+					this.resizeDragBox(e.clientX, e.clientY, this);
+				}.bind(this);
+
+				document.onmouseup = function (e) {
+					e.preventDefault();
+					this.resetDragBox(this);
+				}.bind(this);
+
+			};
+
+			// Pass drag box so we can have a 'pure functional programming' approach.
+
+			this.resetDragBox = function (dragBox) {
+				dragBox.isVisible = false;
+				dragBox.initPosX = 0;
+				dragBox.initPosY = 0;
+				dragBox.currentPosX = 0;
+				dragBox.currentPosY = 0;
+				dragBox.width = 0;
+				dragBox.height = 0;
+				dragBox.left = 0;
+				dragBox.top = 0;
+			}
+
+			this.showDragBox = function (initPosX, initPosY, dragBox) {
+				dragBox.initPosX = initPosX;
+				dragBox.initPosY = initPosY;
+				dragBox.isVisible = true;
+			}
+
+			this.resizeDragBox = function (currentPosX, currentPosY, dragBox) {
+				dragBox.currentPosX = currentPosX;
+				dragBox.currentPosY = currentPosY;
+
+				if (dragBox.currentPosX < dragBox.initPosX) {
+					dragBox.width = dragBox.initPosX - dragBox.currentPosX;
+					dragBox.left = dragBox.currentPosX;
+				} else {
+					dragBox.width = dragBox.currentPosX - dragBox.initPosX;
+					dragBox.left = dragBox.initPosX;
+				}
+
+
+				if (dragBox.currentPosY < dragBox.initPosY) {
+					dragBox.height = dragBox.initPosY - dragBox.currentPosY;
+					dragBox.top = dragBox.currentPosY;
+				} else {
+					dragBox.height = dragBox.currentPosY - dragBox.initPosY;
+					dragBox.top = dragBox.initPosY;
+				}
+			}
+
+		}
