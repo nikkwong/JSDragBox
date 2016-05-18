@@ -19,3 +19,5 @@ You can pass a callback that gets executed on the ```onmousemove``` event. It ha
 ```
 function (clientX: Event.clientX, clientY: Event.clientY, this: DragBox) { ... }
 ```
+
+This callback is optional.
