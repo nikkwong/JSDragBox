@@ -17,7 +17,7 @@ var dragBox = new DragBox().init(document.body, callback);
 You can pass a callback that gets executed on the ```onmousemove``` event. It has the following signature:
 
 ```
-function (clientX: Event.clientX, clientY: Event.clientY, this: DragBox) { ... }
+function (clientX: Event.clientX, clientY: Event.clientY, event: Event, this: DragBox) { ... }
 ```
 
 This callback is optional.
