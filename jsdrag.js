@@ -23,7 +23,7 @@
 		Object.defineProperty(this, "isVisible", {
 		    get: function(){ 
 		    	return _isVisible;
-		    },
+		    }, 
 		    set: function(boolean){
 		    	this.domRef.style.display = boolean ? 'block' : 'none'; 
 		    	_isVisible = boolean;
