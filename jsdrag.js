@@ -108,7 +108,7 @@
 
 	}
 
-	DragBox.prototype.init = function (el, onmousemoveCb, onmouseUpCb, onmousedownCb, context, tolerance) {
+	DragBox.prototype.init = function (el, onmousemoveCb, onmouseupCb, onmousedownCb, context, tolerance) {
 
 		el.appendChild(this.domRef);
 		// this.tolerance = tolerance ? tolerance : this.tolerance;
